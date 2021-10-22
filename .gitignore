@@ -1,0 +1,6 @@
+.DS_Store
+.vscode
+dist
+node_modules
+nginx/ssl/certs
+nginx/ssl/private
