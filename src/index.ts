@@ -1,17 +1,14 @@
-import { World } from "./world"
+import { World } from "./world/world"
 
 import "../static/main.css";
 
 const container:HTMLElement = document.body
 
 const world:World = new World(container)
-world.init()
+world.start();
+let running = true;
 
-function animation (time:number) {
-  world.mesh.rotation.x = time / 2000
-  world.mesh.rotation.y = time / 1000
-
-  world.render();
-}
-
-world.renderer.setAnimationLoop(animation)
+window.addEventListener("click", () => {
+  running ? world.stop() : world.start();
+  running = !running;
+});
