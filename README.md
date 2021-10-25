@@ -40,6 +40,10 @@ https://discoverthreejs.com/book/first-steps
 
 http://threejsplaygnd.brangerbriz.net/gui/
 
+## Three JS VR Examples
+
+https://threejs.org/examples/?q=webxr
+
 ## Linear Algebra Lessons
 
 https://www.khanacademy.org/math/linear-algebra
@@ -47,3 +51,7 @@ https://www.khanacademy.org/math/linear-algebra
 ## Learn OpenGL
 
 https://learnopengl.com/Getting-started/Coordinate-Systems
+
+## Game Programming Patterns
+
+https://gameprogrammingpatterns.com/game-loop.html
