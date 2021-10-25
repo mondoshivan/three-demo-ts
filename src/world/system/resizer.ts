@@ -14,9 +14,7 @@ export class Resizer {
         this._camera = camera;
         this._renderer = renderer;
 
-        this.resize();
-
-        window.addEventListener("resize", () => { this.resize() }, false);
+        window.addEventListener("resize", () => { this.resize() });
     }
 
     public resize() {

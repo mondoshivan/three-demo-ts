@@ -7,7 +7,12 @@ export class Renderer {
     private _webGLRenderer:WebGLRenderer
 
     constructor() {
-        this._webGLRenderer = new WebGLRenderer({ antialias: true });
+        const options = {
+          // for higher fps on mobile devices, this could be switched off: 
+          // https://discoverthreejs.com/book/first-steps/responsive-design/
+          antialias: true
+        };
+        this._webGLRenderer = new WebGLRenderer(options);
         
         // turn on the physically correct lighting model
         this._webGLRenderer.physicallyCorrectLights = true;
