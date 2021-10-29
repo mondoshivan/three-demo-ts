@@ -18,7 +18,7 @@ export class Renderer {
         this._webGLRenderer.physicallyCorrectLights = true;
     }
 
-    public get webGLRenderer() {
+    public get webGLRenderer(): WebGLRenderer {
         return this._webGLRenderer;
     }
 

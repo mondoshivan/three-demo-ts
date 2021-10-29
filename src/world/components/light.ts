@@ -13,11 +13,11 @@ export class Light {
         this._ambientLight = new AmbientLight("white", 3);
     }
 
-    public get sun() {
+    public get sun(): DirectionalLight {
         return this._sun;
     }
 
-    public get ambientLight() {
+    public get ambientLight(): AmbientLight {
         return this._ambientLight;
     }
 

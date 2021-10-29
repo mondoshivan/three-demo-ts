@@ -28,6 +28,8 @@ export class Cube extends WorldObject implements Updateable {
         // rotate the cube 30 degrees per second.
         const degree = 30;
         this._radiansPerSecond = MathUtils.degToRad(degree);
+
+        this._mesh.position.y = 1;
     }
 
     tick(delta:number):void {
