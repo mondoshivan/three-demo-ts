@@ -15,6 +15,7 @@ import {
   import {Cube} from "./components/cube"
   import {Plane} from "./components/plane"
   import {Controls} from "./system/controls"
+  import {Statistics} from "./system/statistics"
 
 export class World {
 
@@ -34,6 +35,7 @@ export class World {
       this._container = container;
       this._camera = this.createCamera();
       this._scene = this.createScene();
+      const statistics:Statistics = new Statistics(container);
 
       // Renderer
       this._renderer = new Renderer().webGLRenderer;
@@ -68,6 +70,7 @@ export class World {
       // add updateables to the loop
       // this._loop.updatables.push(this._cube);
       this._loop.updatables.push(this._controls);
+      this._loop.updatables.push(statistics);
 
       // controls
       this._controls.setTarget(this._cube.mesh.position);
