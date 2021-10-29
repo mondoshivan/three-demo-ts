@@ -2,8 +2,7 @@ const path = require("path")
 const HtmlWebpackPlugin = require("html-webpack-plugin")
 
 module.exports = {
-  mode: "development",
-  devtool: "inline-source-map",
+
   resolve: {
     extensions: [".tsx", ".ts", ".js"]
   },
@@ -17,7 +16,8 @@ module.exports = {
   },
   plugins: [
     new HtmlWebpackPlugin({
-      title: "Development",
+      title: "Three Demo TS",
+      favicon: "./static/favicon.ico",
       meta: {
         charset: "utf-8",
         description: "THREE Demo",
@@ -25,16 +25,6 @@ module.exports = {
       }
     })
   ],
-
-  devServer: {
-    historyApiFallback: true,
-    port: 9000,
-    compress: true,
-    hot: true,
-    static: {
-      directory: path.join(__dirname, "static")
-    }
-  },
 
   module: {
     rules: [
@@ -46,6 +36,13 @@ module.exports = {
         test: /\.tsx?$/,
         use: "ts-loader",
         exclude: /node_modules/
+      },
+      {
+        test: /\.(png|jpe?g|gif)$/i,
+        loader: 'file-loader',
+        options: {
+          name: '[path][name].[ext]',
+        },
       }
     ]
   }

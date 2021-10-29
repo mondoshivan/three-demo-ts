@@ -10,10 +10,17 @@ npm install
 npm run dev
 ```
 
-# Build
+# Build for Production
 
 ```
 npm run build
+```
+
+# Run Production with Docker
+
+```
+npm run build
+docker-compose up -d
 ```
 
 # THREE 
