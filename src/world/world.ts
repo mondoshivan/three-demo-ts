@@ -16,10 +16,10 @@ import {
   import {Plane} from "./components/plane"
   import {Controls} from "./system/controls"
   import {Statistics} from "./system/statistics"
+  import {Camera} from "./components/camera"
 
 export class World {
 
-    private _container:HTMLElement
     private _camera:PerspectiveCamera
     private _renderer:WebGLRenderer
     private _scene:Scene
@@ -32,21 +32,20 @@ export class World {
     private _controls:Controls
   
     constructor(container:HTMLElement) {
-      this._container = container;
-      this._camera = this.createCamera();
+      this._camera = new Camera(container).perspectiveCamera;
       this._scene = this.createScene();
       const statistics:Statistics = new Statistics(container);
 
       // Renderer
       this._renderer = new Renderer().webGLRenderer;
-      this._container.appendChild(this._renderer.domElement);
+      container.appendChild(this._renderer.domElement);
       
       this._controls = new Controls(this._camera, this._renderer.domElement);
       this._cube = new Cube();
       this._loop = new Loop(this._camera, this._scene, this._renderer);
 
       // Resizer
-      this._resizer = new Resizer(this._container, this._camera, this._renderer);
+      this._resizer = new Resizer(container, this._camera, this._renderer);
       this._resizer.resize();      
 
       this._sun = new Light().sun;
@@ -74,22 +73,13 @@ export class World {
 
       // controls
       this._controls.setTarget(this._cube.mesh.position);
-      this._controls.setDomElement(this._container);
+      this._controls.setDomElement(container);
     }
 
     private createScene(): Scene {
         const scene:Scene = new Scene();
         scene.background = new Color("skyblue");
         return scene;
-    }
-  
-    private createCamera(): PerspectiveCamera {
-      const fov = 70; // AKA Field of View
-      const aspect = this._container.clientWidth / this._container.clientHeight;
-      const near = 0.01; // the near clipping plane
-      const far = 10; // the far clipping plane
-  
-      return new PerspectiveCamera(fov, aspect, near, far);
     }
 
     public start() {
