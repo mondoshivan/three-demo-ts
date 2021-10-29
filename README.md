@@ -1,8 +1,25 @@
-# Installation
+# Node Package Installation
 
 ```
 npm install
 ```
+
+## Create SSL Certificates
+
+https://www.digitalocean.com/community/tutorials/how-to-create-a-self-signed-ssl-certificate-for-nginx-in-ubuntu-16-04
+
+```sh
+
+COUNTRY="DE"
+STATE="HH"
+CITY="Hamburg"
+ENTERPRISE="MondoEnt"
+COMMON_NAME=$(hostname)
+
+./nginx/setup.sh ${COUNTRY} ${STATE} ${CITY} ${ENTERPRISE} ${COMMON_NAME}
+
+```
+
 
 # Development
 
@@ -20,6 +37,7 @@ npm run build
 
 ```
 npm run build
+export NGINX_HOST="$(hostname)"
 docker-compose up -d
 ```
 

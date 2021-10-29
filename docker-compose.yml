@@ -10,3 +10,5 @@ services:
       - ./nginx/snippets:/etc/nginx/snippets:ro
       - ./nginx/ssl:/etc/ssl:ro
       - ./dist:/usr/share/nginx/html:ro
+    environment:
+      - NGINX_HOST=${NGINX_HOST}
