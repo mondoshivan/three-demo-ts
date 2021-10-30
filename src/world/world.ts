@@ -4,7 +4,6 @@ import {
   DirectionalLight,
   PerspectiveCamera,
   Scene, 
-  Vector3,
   WebGLRenderer
   } from "three"
 
@@ -17,6 +16,7 @@ import {
   import {Controls} from "./system/controls"
   import {Statistics} from "./system/statistics"
   import {Camera} from "./components/camera"
+  import { GUI_Handler } from "./system/gui_handler"
 
 export class World {
 
@@ -30,6 +30,7 @@ export class World {
     private _loop:Loop
     private _plane:Plane
     private _controls:Controls
+    private _guiHandler:GUI_Handler
   
     constructor(container:HTMLElement) {
       this._camera = new Camera(container).perspectiveCamera;
@@ -43,6 +44,16 @@ export class World {
       this._controls = new Controls(this._camera, this._renderer.domElement);
       this._cube = new Cube();
       this._loop = new Loop(this._camera, this._scene, this._renderer);
+
+      // GUI
+      this._guiHandler = new GUI_Handler();
+      this._guiHandler.addParameter("Cube Rotation", this._cube.mesh.rotation, "x", 0, Math.PI * 2);
+      this._guiHandler.addParameter("Cube Rotation", this._cube.mesh.rotation, "y", 0, Math.PI * 2);
+      this._guiHandler.addParameter("Cube Rotation", this._cube.mesh.rotation, "z", 0, Math.PI * 2);
+
+      this._guiHandler.addParameter("Cube Position", this._cube.mesh.position, "x", 0, 10);
+      this._guiHandler.addParameter("Cube Position", this._cube.mesh.position, "y", 0, 10);
+      this._guiHandler.addParameter("Cube Position", this._cube.mesh.position, "z", 0, 10);
 
       // Resizer
       this._resizer = new Resizer(container, this._camera, this._renderer);
