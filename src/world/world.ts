@@ -4,6 +4,7 @@ import {
   DirectionalLight,
   PerspectiveCamera,
   Scene, 
+  Vector3, 
   WebGLRenderer
   } from "three"
 
@@ -63,8 +64,8 @@ export class World {
       this._ambientLight = new Light().ambientLight;
       this._plane = new Plane();
 
-      // this._camera.position.z = 1;
-      // this._camera.lookAt(new Vector3(0, 0, 0));
+      this._camera.position.z = 1;
+      this._camera.lookAt(new Vector3(0, 0, 0));
       
       // move the light right, up, and towards us
       this._sun.position.set(10, 10, 10);
@@ -83,7 +84,7 @@ export class World {
       this._loop.updatables.push(statistics);
 
       // controls
-      this._controls.setTarget(this._cube.mesh.position);
+      // this._controls.setTarget(this._cube.mesh.position);
       this._controls.setDomElement(container);
     }
 

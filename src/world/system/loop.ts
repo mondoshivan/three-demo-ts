@@ -50,10 +50,6 @@ export class Loop {
         // Note: if you call it .getDelta more than once per frame, 
         // subsequent calls will measure close to zero. Only call .getDelta once at the very start of a frame!
         const delta = this._clock.getDelta();
-        const deltaMs = delta * 1000;
-
-        // console.log(`The last frame rendered in ${deltaMs} milliseconds`);
-        // console.log(`fps: ${1000 / deltaMs}`);
 
         for(const object of this._updatables) {
             object.tick(delta);

@@ -16,7 +16,7 @@ export class Controls implements Updateable {
         this._orbitControls.enableRotate = true;
         this._orbitControls.enableKeys = true;
 
-        this._orbitControls.enableDamping = false;
+        this._orbitControls.enableDamping = true;
         // this._orbitControls.autoRotate = true;
         // this._orbitControls.autoRotateSpeed = 2.0 // default: 2.0, which equates to 30 seconds per orbit at 60fps.
         
