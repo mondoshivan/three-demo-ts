@@ -18,6 +18,9 @@ import {
   import {Statistics} from "./system/statistics"
   import {Camera} from "./components/camera"
   import { GUI_Handler } from "./system/gui_handler"
+  import { SceneHandler } from "./components/scene_handler"
+  import { DebugGUI } from "./system/debug_gui"
+  import { Donut } from "./components/donut"
 
 export class World {
 
@@ -32,19 +35,28 @@ export class World {
     private _plane:Plane
     private _controls:Controls
     private _guiHandler:GUI_Handler
+    private _debugGUI:DebugGUI
+    private _donut:Donut
   
     constructor(container:HTMLElement) {
       this._camera = new Camera(container).perspectiveCamera;
-      this._scene = this.createScene();
+      this._scene = new SceneHandler().scene;
       const statistics:Statistics = new Statistics(container);
 
       // Renderer
       this._renderer = new Renderer().webGLRenderer;
       container.appendChild(this._renderer.domElement);
       
+      // DebugGUI
+      this._debugGUI = new DebugGUI();
+      this._debugGUI.appendText("test");
+
       this._controls = new Controls(this._camera, this._renderer.domElement);
       this._cube = new Cube();
       this._loop = new Loop(this._camera, this._scene, this._renderer);
+
+      // Donut
+      this._donut = new Donut(this._scene);
 
       // GUI
       this._guiHandler = new GUI_Handler();
@@ -55,6 +67,9 @@ export class World {
       this._guiHandler.addParameter("Cube Position", this._cube.mesh.position, "x", 0, 10);
       this._guiHandler.addParameter("Cube Position", this._cube.mesh.position, "y", 0, 10);
       this._guiHandler.addParameter("Cube Position", this._cube.mesh.position, "z", 0, 10);
+
+      this._guiHandler.addParameter("Cube Visible", this._cube.mesh, "visible");
+
 
       // Resizer
       this._resizer = new Resizer(container, this._camera, this._renderer);
@@ -86,12 +101,6 @@ export class World {
       // controls
       // this._controls.setTarget(this._cube.mesh.position);
       this._controls.setDomElement(container);
-    }
-
-    private createScene(): Scene {
-        const scene:Scene = new Scene();
-        scene.background = new Color("skyblue");
-        return scene;
     }
 
     public start() {

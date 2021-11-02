@@ -1,0 +1,11 @@
+#debug1 {
+    font-family: monospace;
+    font-size: larger;
+    position: absolute;
+    left: 0px;
+    top: 50px;
+    border: 1px solid red;
+    width: 33%;
+    color: white;
+    pointer-events: none;
+}

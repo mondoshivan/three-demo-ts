@@ -35,7 +35,11 @@ export class GUI_Handler {
         }
 
         // adding a parameter.
-        folder.add(target, propName, min, max);
+        if (min === undefined) {
+            folder.add(target, propName);
+        } else {
+            folder.add(target, propName, min, max);
+        }
 
         // if the folder existed?
         if (!folderExisted) {
