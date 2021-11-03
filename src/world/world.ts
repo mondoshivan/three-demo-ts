@@ -8,15 +8,15 @@ import {
   WebGLRenderer
   } from "three"
 
-  import {Resizer} from "./system/resizer"
-  import {Renderer} from "./system/renderer"
-  import {Light} from "./components/light"
-  import {Loop} from "./system/loop"
-  import {Cube} from "./components/cube"
-  import {MoPlane} from "./components/mo_plane"
-  import {Controls} from "./system/controls"
-  import {Statistics} from "./system/statistics"
-  import {Camera} from "./components/camera"
+  import { Resizer } from "./system/resizer"
+  import { Renderer } from "./system/renderer"
+  import { Light } from "./components/light"
+  import { Loop } from "./system/loop"
+  import { Cube } from "./components/cube"
+  import { MoPlane } from "./components/mo_plane"
+  import { MoControls } from "./system/mo_controls"
+  import { Statistics } from "./system/statistics"
+  import { Camera } from "./components/camera"
   import { GUI_Handler } from "./system/gui_handler"
   import { MoScene } from "./components/mo_scene"
   import { DebugGUI } from "./system/debug_gui"
@@ -35,7 +35,7 @@ export class World {
     private _ambientLight:AmbientLight
     private _loop:Loop
     private _plane:MoPlane
-    private _controls:Controls
+    private _controls:MoControls
     private _guiHandler:GUI_Handler
     private _debugGUI:DebugGUI
     private _donut:Donut
@@ -53,7 +53,8 @@ export class World {
       this._debugGUI = new DebugGUI();
       this._debugGUI.appendText("test");
 
-      this._controls = new Controls(this._camera, this._renderer.domElement);
+      this._controls = new MoControls(this._camera, this._renderer.domElement);
+      this._controls.listenToKeyEvents(container); // needs to be done to get keys working
 
       // Cube
       const geometry = new BoxGeometry(0.2, 0.2, 0.2)
@@ -109,10 +110,6 @@ export class World {
       this._loop.updatables.push(this._cube);
       this._loop.updatables.push(this._controls);
       this._loop.updatables.push(statistics);
-
-      // controls
-      // this._controls.setTarget(this._cube.object3D.position);
-      this._controls.setDomElement(container);
     }
 
     /**
@@ -133,6 +130,9 @@ export class World {
         model.init();
         this._scene.add(model.root);
       }
+
+      // On which target do you want to look?
+      this._controls.target.copy(this._donut.root.position);
     }
 
     public start() {
