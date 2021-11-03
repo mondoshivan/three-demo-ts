@@ -2,13 +2,18 @@ import { World } from "./world/world"
 
 import "./style/main.css";
 
-const container:HTMLElement = document.body
+async function main() {
 
-const world:World = new World(container)
-world.start();
-const running = true;
+    const container:HTMLElement = document.body;
 
-// window.addEventListener("click", () => {
-//   running ? world.stop() : world.start();
-//   running = !running;
-// });
+    const world:World = new World(container);
+
+    await world.init();
+
+    world.start();
+    
+}
+
+main().catch((err) => {
+    console.error(err);
+  });

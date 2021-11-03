@@ -1,7 +1,8 @@
 import {
   AmbientLight,
-  Color,
+  BoxGeometry,
   DirectionalLight,
+  MeshStandardMaterial,
   PerspectiveCamera,
   Scene, 
   Vector3, 
@@ -21,6 +22,7 @@ import {
   import { SceneHandler } from "./components/scene_handler"
   import { DebugGUI } from "./system/debug_gui"
   import { Donut } from "./components/donut"
+  import DonutGLB from "./models/donut.glb";
 
 export class World {
 
@@ -52,23 +54,33 @@ export class World {
       this._debugGUI.appendText("test");
 
       this._controls = new Controls(this._camera, this._renderer.domElement);
-      this._cube = new Cube();
+
+      // Cube
+      const geometry = new BoxGeometry(0.2, 0.2, 0.2)
+
+      // As the name suggests, MeshStandardMaterial should be your go-to “standard” material 
+      // for nearly all situations. With the addition of well-crafted textures, we can recreate 
+      // nearly any common surface using the MeshStandardMaterial.
+      const material = new MeshStandardMaterial({color: "purple"});
+      this._cube = new Cube(geometry, material);
+
+      // Loop
       this._loop = new Loop(this._camera, this._scene, this._renderer);
 
       // Donut
-      this._donut = new Donut(this._scene);
+      this._donut = new Donut(DonutGLB);
 
       // GUI
       this._guiHandler = new GUI_Handler();
-      this._guiHandler.addParameter("Cube Rotation", this._cube.mesh.rotation, "x", 0, Math.PI * 2);
-      this._guiHandler.addParameter("Cube Rotation", this._cube.mesh.rotation, "y", 0, Math.PI * 2);
-      this._guiHandler.addParameter("Cube Rotation", this._cube.mesh.rotation, "z", 0, Math.PI * 2);
+      this._guiHandler.addParameter("Cube Rotation", this._cube.rotation, "x", 0, Math.PI * 2);
+      this._guiHandler.addParameter("Cube Rotation", this._cube.rotation, "y", 0, Math.PI * 2);
+      this._guiHandler.addParameter("Cube Rotation", this._cube.rotation, "z", 0, Math.PI * 2);
 
-      this._guiHandler.addParameter("Cube Position", this._cube.mesh.position, "x", 0, 10);
-      this._guiHandler.addParameter("Cube Position", this._cube.mesh.position, "y", 0, 10);
-      this._guiHandler.addParameter("Cube Position", this._cube.mesh.position, "z", 0, 10);
+      this._guiHandler.addParameter("Cube Position", this._cube.position, "x", 0, 10);
+      this._guiHandler.addParameter("Cube Position", this._cube.position, "y", 0, 10);
+      this._guiHandler.addParameter("Cube Position", this._cube.position, "z", 0, 10);
 
-      this._guiHandler.addParameter("Cube Visible", this._cube.mesh, "visible");
+      this._guiHandler.addParameter("Cube Visible", this._cube, "visible");
 
 
       // Resizer
@@ -87,20 +99,28 @@ export class World {
 
       // add to the sceen
       this._scene.add(
-        this._cube.mesh,
+        this._cube,
         this._sun,
         // this._ambientLight,
-        this._plane.mesh
+        this._plane.object3D,
         );
      
       // add updateables to the loop
-      // this._loop.updatables.push(this._cube);
+      this._loop.updatables.push(this._cube);
       this._loop.updatables.push(this._controls);
       this._loop.updatables.push(statistics);
 
       // controls
-      // this._controls.setTarget(this._cube.mesh.position);
+      // this._controls.setTarget(this._cube.object3D.position);
       this._controls.setDomElement(container);
+    }
+
+    public async init() {
+      await this._donut.init();
+
+      this._scene.add(
+        this._donut.root
+        );
     }
 
     public start() {

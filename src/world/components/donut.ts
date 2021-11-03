@@ -1,25 +1,24 @@
-import { Mesh, Scene } from "three";
-import { GLTFLoader } from "three/examples/jsm/loaders/GLTFLoader";
-import DonutGLB from "../models/donut.glb";
+import { Mesh } from "three";
+import { GLTF_Model } from "./gltf_model";
 
-export class Donut {
+export class Donut extends GLTF_Model {
 
-    private _gltfLoader: GLTFLoader;
+    constructor(model: string) {
+        super(model);
+    }
 
-    constructor(scene:Scene) {
-        this._gltfLoader = new GLTFLoader();
-        this._gltfLoader.load(DonutGLB, (gltf) => {
-            gltf.scene.traverse((child) => {
-                if ((child as Mesh).isMesh) {
-                    const m = child as Mesh;
-                    m.receiveShadow = true;
-                    m.castShadow = true;
-                }
-            });
+    public async init() {
+        await super.init();
 
-            gltf.scene.position.y = 1;
+        this._root.position.y = 0.5;
+        
+        this._root.traverse((child) => {
+            if ((child as Mesh).isMesh) {
+                const m = child as Mesh;
+                m.receiveShadow = true;
+                m.castShadow = true;
+            }
 
-            scene.add(gltf.scene);
         });
     }
 
