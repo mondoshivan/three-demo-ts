@@ -3,8 +3,7 @@ import {
   BoxGeometry,
   DirectionalLight,
   MeshStandardMaterial,
-  PerspectiveCamera,
-  Scene, 
+  PerspectiveCamera, 
   Vector3, 
   WebGLRenderer
   } from "three"
@@ -14,27 +13,28 @@ import {
   import {Light} from "./components/light"
   import {Loop} from "./system/loop"
   import {Cube} from "./components/cube"
-  import {Plane} from "./components/plane"
+  import {MoPlane} from "./components/mo_plane"
   import {Controls} from "./system/controls"
   import {Statistics} from "./system/statistics"
   import {Camera} from "./components/camera"
   import { GUI_Handler } from "./system/gui_handler"
-  import { SceneHandler } from "./components/scene_handler"
+  import { MoScene } from "./components/mo_scene"
   import { DebugGUI } from "./system/debug_gui"
   import { Donut } from "./components/donut"
   import DonutGLB from "./models/donut.glb";
+  import { GLTFLoaderHandler } from "./system/gltf_loader_handler"
 
 export class World {
 
     private _camera:PerspectiveCamera
     private _renderer:WebGLRenderer
-    private _scene:Scene
+    private _scene: MoScene
     private _cube:Cube
     private _resizer:Resizer
     private _sun:DirectionalLight
     private _ambientLight:AmbientLight
     private _loop:Loop
-    private _plane:Plane
+    private _plane:MoPlane
     private _controls:Controls
     private _guiHandler:GUI_Handler
     private _debugGUI:DebugGUI
@@ -42,7 +42,7 @@ export class World {
   
     constructor(container:HTMLElement) {
       this._camera = new Camera(container).perspectiveCamera;
-      this._scene = new SceneHandler().scene;
+      this._scene = new MoScene();
       const statistics:Statistics = new Statistics(container);
 
       // Renderer
@@ -89,7 +89,7 @@ export class World {
 
       this._sun = new Light().sun;
       this._ambientLight = new Light().ambientLight;
-      this._plane = new Plane();
+      this._plane = new MoPlane();
 
       this._camera.position.z = 1;
       this._camera.lookAt(new Vector3(0, 0, 0));
@@ -99,10 +99,10 @@ export class World {
 
       // add to the sceen
       this._scene.add(
-        this._cube,
+        // this._cube,
         this._sun,
         // this._ambientLight,
-        this._plane.object3D,
+        this._plane,
         );
      
       // add updateables to the loop
@@ -115,12 +115,24 @@ export class World {
       this._controls.setDomElement(container);
     }
 
+    /**
+     * Asynchron initializing:
+     * Splitting the setup into synchronous and asynchronous stages like this 
+     * gives us full control over the setup of our app. In the synchronous stage, 
+     * we will create everything that doesn’t rely on loaded assets, 
+     * and in the asynchronous stage, we’ll create everything that does.
+     */
     public async init() {
-      await this._donut.init();
 
-      this._scene.add(
-        this._donut.root
-        );
+      // Loading all glTF Models.
+      const gltfModels = [this._donut];
+      const loadedGLTFModels = await GLTFLoaderHandler.loadModels(gltfModels);
+
+      // Initializing all glTF Models.
+      for (const model of loadedGLTFModels) {
+        model.init();
+        this._scene.add(model.root);
+      }
     }
 
     public start() {

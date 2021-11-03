@@ -6,7 +6,7 @@ async function main() {
 
     const container:HTMLElement = document.body;
 
-    const world:World = new World(container);
+    const world = new World(container);
 
     await world.init();
 
@@ -14,6 +14,10 @@ async function main() {
     
 }
 
+/**
+ *  In a real app, you might want to do more sophisticated error handling, 
+ * such as displaying a message to the user to let them know that something went wrong. 
+ */
 main().catch((err) => {
     console.error(err);
   });

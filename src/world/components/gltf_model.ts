@@ -1,27 +1,28 @@
 import { Group } from "three";
-import { GLTF, GLTFLoader } from "three/examples/jsm/loaders/GLTFLoader";
 
+export abstract class GLTF_Model {
 
-export class GLTF_Model {
-
-    private _model: string;
+    private _path: string;
     
     protected _root: Group;
 
-    protected static gltfLoader: GLTFLoader = new GLTFLoader();
-
-    constructor(model: string) {
-        this._model = model;
+    constructor(path: string) {
+        this._path = path;
         this._root = new Group();
+    }
+
+    public get path(): string {
+        return this._path;
     }
 
     public get root(): Group {
         return this._root;
     }
 
-    public async init() {
-        const gltf: GLTF = await GLTF_Model.gltfLoader.loadAsync(this._model);
-        this._root = gltf.scene;  
+    public set root(root: Group) {
+        this._root = root;
     }
+
+    public abstract init(): GLTF_Model;
 
 }

@@ -19,6 +19,7 @@ export class GUI_Handler {
     * @param min The minimum value of the parameter.
     * @param max The maximum value of the parameter.
     */
+    // eslint-disable-next-line @typescript-eslint/ban-types
     public addParameter(name:string, target:Object, propName:string, min?:number, max?:number) {
         
         // Checking if the folder already exists

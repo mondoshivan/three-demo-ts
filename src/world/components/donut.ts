@@ -3,12 +3,7 @@ import { GLTF_Model } from "./gltf_model";
 
 export class Donut extends GLTF_Model {
 
-    constructor(model: string) {
-        super(model);
-    }
-
-    public async init() {
-        await super.init();
+    public init(): GLTF_Model {
 
         this._root.position.y = 0.5;
         
@@ -20,6 +15,8 @@ export class Donut extends GLTF_Model {
             }
 
         });
+
+        return this;
     }
 
 }

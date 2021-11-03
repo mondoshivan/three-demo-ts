@@ -69,6 +69,10 @@ http://threejsplaygnd.brangerbriz.net/gui/
 
 https://threejs.org/examples/?q=webxr
 
+## Three JS GLTF Models
+
+https://github.com/mrdoob/three.js/tree/master/examples/models/gltf
+
 ## Linear Algebra Lessons
 
 https://www.khanacademy.org/math/linear-algebra

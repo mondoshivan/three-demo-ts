@@ -1,9 +1,6 @@
 import { DoubleSide, Mesh, MeshStandardMaterial, PlaneGeometry } from "three";
-import { WorldObject } from "./world_object"
 
-export class Plane extends WorldObject {
-
-    protected _mesh: Mesh;
+export class MoPlane extends Mesh {
 
     constructor() {
         super();
@@ -13,9 +10,12 @@ export class Plane extends WorldObject {
         const geometry = new PlaneGeometry( width, height );
         const material = new MeshStandardMaterial( {color: "black"} );
         material.side = DoubleSide;
-        this._mesh = new Mesh( geometry, material );
-        this._mesh.rotation.x = -90 * Math.PI / 180;
-        this._mesh.position.set(0, 0, 0);
+
+        this.geometry = geometry;
+        this.material = material;
+
+        this.rotation.x = -90 * Math.PI / 180;
+        this.position.set(0, 0, 0);
     }
 
 }
